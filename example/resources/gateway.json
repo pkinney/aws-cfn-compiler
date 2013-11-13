@@ -1,0 +1,18 @@
+{ "InternetGateway" : {
+    "Type" : "AWS::EC2::InternetGateway",
+    "Properties" : {
+      "Tags" : [
+        {"Key" : "Application", "Value" : { "Ref" : "AWS::StackName"} },
+        {"Key" : "Network", "Value" : "Public" }
+      ]
+    }
+  },
+
+  "AttachGateway" : {
+    "Type" : "AWS::EC2::VPCGatewayAttachment",
+    "Properties" : {
+       "VpcId" : { "Ref" : "VPC" },
+       "InternetGatewayId" : { "Ref" : "InternetGateway" }
+    }
+  }
+}

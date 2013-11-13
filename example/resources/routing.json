@@ -1,0 +1,32 @@
+{ "PublicRouteTable" : {
+    "Type" : "AWS::EC2::RouteTable",
+    "Properties" : {
+      "VpcId" : {"Ref" : "VPC"}
+    }
+  },
+
+  "PublicRoute" : {
+    "Type" : "AWS::EC2::Route",
+    "Properties" : {
+      "RouteTableId" : { "Ref" : "PublicRouteTable" },
+      "DestinationCidrBlock" : "0.0.0.0/0",
+      "GatewayId" : { "Ref" : "InternetGateway" }
+    }
+  },
+
+  "PrivateRouteTable" : {
+    "Type" : "AWS::EC2::RouteTable",
+    "Properties" : {
+      "VpcId" : {"Ref" : "VPC"}
+    }
+  },
+
+  "PrivateRoute" : {
+    "Type" : "AWS::EC2::Route",
+    "Properties" : {
+      "RouteTableId" : { "Ref" : "PrivateRouteTable" },
+      "DestinationCidrBlock" : "0.0.0.0/0",
+      "InstanceId" : { "Ref" : "NATDevice" }
+    }
+  }
+}

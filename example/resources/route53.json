@@ -1,0 +1,16 @@
+{ "Route53" : {
+    "Type" : "AWS::Route53::RecordSetGroup",
+    "Properties" : {
+      "HostedZoneName" : {"Ref" : "Route53HostedZoneName"},
+      "RecordSets" : [
+        { "Type" : "AWS::Route53::RecordSet",
+          "Properties" : {
+            "Name" : {"Fn::Join" : [ "", "app.", [{"Ref" : "URLSubfix"}] ]},
+            "Type" : "A",
+            "AliasTarget" : "AppELB"
+          }
+        }
+      ]
+    }
+  }
+}

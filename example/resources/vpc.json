@@ -1,0 +1,11 @@
+{ "VPC" : {
+    "Type" : "AWS::EC2::VPC",
+    "Properties" : {
+      "CidrBlock" : {"Fn::Join" : [ ".", [{"Ref" : "VPCPrefix"}, "0.0/16"] ]},
+      "Tags" : [
+        {"Key" : "Application", "Value" : { "Ref" : "AWS::StackName"} },
+        {"Key" : "Network", "Value" : "Public" }
+      ]
+    }
+  }
+}

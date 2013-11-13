@@ -1,0 +1,36 @@
+{ "VPCPrefix" : {
+    "Description" : "IP Prefix for VPC (xxx.xxx)",
+    "Type" : "String",
+    "MinLength": "1",
+    "MaxLength": "64",
+    "AllowedPattern" : "(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)",
+    "ConstraintDescription" : "First two numbers for an IP"
+  },
+
+  "URLSubfix" : {
+    "Description" : "Additional component of the URL: app.[URLSubfix.][hostedZoneName]",
+    "Type" : "String",
+    "MinLength": "0",
+    "MaxLength": "64",
+    "AllowedPattern" : "([a-z0-9_\-]+\.|)",
+    "ConstraintDescription" : "Must be alphanumerics, underscore, or dash and end in a dot or may be blank"
+  },
+
+  "Route53HostedZoneName" : {
+    "Description" : "Name of the hosted zone (i.e. myapp.com)",
+    "Type" : "String",
+    "MinLength": "3",
+    "MaxLength": "64",
+    "AllowedPattern" : "[a-z0-9_\-\.]+",
+    "ConstraintDescription" : "Must be alphanumerics, underscores, dashes, or dots"
+  },
+
+  "KeyName" : {
+    "Description" : "Name of an existing EC2 KeyPair to enable SSH access to the instances",
+    "Type" : "String",
+    "MinLength": "1",
+    "MaxLength": "64",
+    "AllowedPattern" : "[-_ a-zA-Z0-9]*",
+    "ConstraintDescription" : "can contain only alphanumeric characters, spaces, dashes and underscores."
+  }
+}

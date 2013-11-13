@@ -1,0 +1,15 @@
+AppServer:
+  Type: AWS::EC2::Instance
+  Properties:
+    InstanceType: t1.micro
+    KeyName:
+      Ref: KeyName
+    SubnetId:
+      Ref: PublicASubnet
+    ImageId:
+      "Fn::FindInMap":
+        - AWSRegionArch2AMI
+        - Ref: AWS::Region
+        - 64
+    SecurityGroupIds:
+      - Ref: AppSG

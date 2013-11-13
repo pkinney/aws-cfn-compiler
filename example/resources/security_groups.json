@@ -1,0 +1,54 @@
+{ "AccessSG" : {
+    "Type" : "AWS::EC2::SecurityGroup",
+    "Properties" : {
+      "VpcId" : { "Ref" : "VPC" },
+      "GroupDescription" : "Enable SSH access via port 22",
+      "SecurityGroupIngress" : [ { "IpProtocol" : "tcp", "FromPort" : "22", "ToPort" : "22", "CidrIp" : "0.0.0.0/0" } ]
+    }
+  },
+
+  "NATSG" : {
+    "Type" : "AWS::EC2::SecurityGroup",
+    "Properties" : {
+      "GroupDescription" : "Enable internal access to the NAT device",
+      "VpcId" : { "Ref" : "VPC" },
+      "SecurityGroupIngress" : [
+        { "IpProtocol" : "tcp", "FromPort" : "0",  "ToPort" : "65535",  "CidrIp" : {"Fn::Join" : [ ".", [{"Ref" : "VPCPrefix"}, "0", "0/16"] ]} } ,
+        { "IpProtocol" : "udp", "FromPort" : "0", "ToPort" : "65535", "CidrIp" : {"Fn::Join" : [ ".", [{"Ref" : "VPCPrefix"}, "0", "0/16"] ]} } ,
+        { "IpProtocol" : "icmp", "FromPort" : "-1",  "ToPort" : "-1",  "CidrIp" : {"Fn::Join" : [ ".", [{"Ref" : "VPCPrefix"}, "0", "0/16"] ]} }
+      ],
+      "SecurityGroupEgress" : [
+        { "IpProtocol" : "tcp", "FromPort" : "80",  "ToPort" : "80",  "CidrIp" : "0.0.0.0/0" } ,
+        { "IpProtocol" : "tcp", "FromPort" : "443", "ToPort" : "443", "CidrIp" : "0.0.0.0/0" },
+        { "IpProtocol" : "tcp", "FromPort" : "0", "ToPort" : "65535", "CidrIp" : {"Fn::Join" : [ ".", [{"Ref" : "VPCPrefix"}, "0", "0/16"] ]} },
+        { "IpProtocol" : "icmp", "FromPort" : "-1",  "ToPort" : "-1",  "CidrIp" : "0.0.0.0/0" }
+      ]
+    }
+  },
+
+  "AppSG" : {
+    "Type" : "AWS::EC2::SecurityGroup",
+    "Properties" : {
+      "GroupDescription" : "Application Server Security Group",
+      "VpcId" : { "Ref" : "VPC" },
+      "SecurityGroupIngress" : [
+        { "IpProtocol" : "tcp", "FromPort" : "80",  "ToPort" : "80",  "SourceSecurityGroupName" : "AppELBSG" },
+        { "IpProtocol" : "tcp", "FromPort" : "22",  "ToPort" : "22",  "SourceSecurityGroupName" : "AccessSG" }
+      ]
+    }
+  },
+
+  "AppELBSG" : {
+    "Type" : "AWS::EC2::SecurityGroup",
+    "Properties" : {
+      "VpcId" : { "Ref" : "VPC" },
+      "GroupDescription" : "Elastic Load Balancing for App Servers",
+      "SecurityGroupIngress" : [
+        { "IpProtocol" : "tcp", "FromPort" : "443", "ToPort" : "443", "CidrIp" : "0.0.0.0/0" }
+      ],
+      "SecurityGroupEgress" : [
+        { "IpProtocol" : "tcp", "FromPort" : "80",  "ToPort" : "80",  "SourceSecurityGroupName" : "AppSG" }
+      ]
+    }
+  }
+}

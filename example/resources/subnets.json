@@ -1,0 +1,35 @@
+{
+  "PublicASubnet" : {
+    "Type" : "AWS::EC2::Subnet",
+    "Properties" : {
+      "VpcId" : { "Ref" : "VPC" },
+      "AvailabilityZone" : "us-east-1a",
+      "CidrBlock" : {"Fn::Join" : [ ".", [{"Ref" : "VPCPrefix"}, "1", "0/24"] ]}
+    }
+  },
+
+  "PrivateASubnet" : {
+    "Type" : "AWS::EC2::Subnet",
+    "Properties" : {
+      "VpcId" : { "Ref" : "VPC" },
+      "AvailabilityZone" : "us-east-1a",
+      "CidrBlock" : {"Fn::Join" : [ ".", [{"Ref" : "VPCPrefix"}, "101", "0/24"] ]}
+    }
+  },
+
+  "PublicSubnetARouteTableAssociation" : {
+    "Type" : "AWS::EC2::SubnetRouteTableAssociation",
+    "Properties" : {
+      "SubnetId" : { "Ref" : "PublicASubnet" },
+      "RouteTableId" : { "Ref" : "PublicRouteTable" }
+    }
+  },
+
+  "PrivateSubnetARouteTableAssociation" : {
+    "Type" : "AWS::EC2::SubnetRouteTableAssociation",
+    "Properties" : {
+      "SubnetId" : { "Ref" : "PrivateASubnet" },
+      "RouteTableId" : { "Ref" : "PrivateRouteTable" }
+    }
+  }
+}

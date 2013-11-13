@@ -1,0 +1,16 @@
+VpcId:
+  Value:
+    Ref: VPC
+  Description: ID of newly created VPC
+
+AccessIP:
+  Value:
+    Ref: AccessIP
+  Description: NAT Instance ID
+
+VPCCidrIP:
+  Value:
+    "Fn::GetAtt":
+      - VPC
+      - CidrBlock
+  Description: Cidr IP of  the VPC

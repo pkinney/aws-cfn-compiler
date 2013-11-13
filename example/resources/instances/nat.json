@@ -1,0 +1,12 @@
+{ "NATDevice" : {
+    "Type" : "AWS::EC2::Instance",
+    "Properties" : {
+      "InstanceType" : "t1.micro",
+      "KeyName" : { "Ref" : "KeyName" },
+      "SubnetId" : { "Ref" : "PublicASubnet" },
+      "SourceDestCheck" : "false",
+      "ImageId" : { "Fn::FindInMap" : [ "AWSRegionArch2AMINAT", { "Ref" : "AWS::Region" }, "64" ]},
+      "SecurityGroupIds" : [{ "Ref" : "NATSG" }]
+    }
+  }
+}
