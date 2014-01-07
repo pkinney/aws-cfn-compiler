@@ -1,7 +1,7 @@
 aws-cfn-compiler
 ================
 
-A simple script to compile and perform some validation for CloudFormation scrips.  The idea is to create a folder structure to better manage pieces of a CloudFormation deployment.  Additionally, writing in JSON is hard, so the compiler takes YAML files as well.
+A simple script to compile and perform some validation for CloudFormation scripts.  The idea is to create a folder structure to better manage pieces of a CloudFormation deployment.  Additionally, writing in JSON is hard, so the compiler takes YAML files as well.
 
 
 Installation
